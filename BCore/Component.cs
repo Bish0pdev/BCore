@@ -49,30 +49,6 @@ namespace BCore
         }
     }
 
-    public class PhysicsComponent : Component
-    {
-        private Vector2 velocity = Vector2.Zero;
-        private float gravity = 9.8f;
-        public override void Update(GameTime gameTime)
-        {
-            velocity.Y += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            entity.Position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-        }
-    }
-
-    public class BoxCollider : Component
-    {
-        public override void Update(GameTime gameTime)
-        {
-            
-        }
-        public override void Draw(SpriteBatch batch)
-        {
-            //batch.Draw(SimpleTextures.CreateSquareTexture(batch.GraphicsDevice, (int)Math.Round(entity.Scale.Length()), new Color(Color.Red,0.1f)), entity.Position, Color.White);
-        }
-    }
-
     public class TextRenderer : Component
     {
         public SpriteFont font;
