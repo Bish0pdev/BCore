@@ -40,10 +40,11 @@ namespace BCore
             Scale = scale;
         }
 
-        public void AddComponent(Component component)
+        public Component AddComponent(Component component)
         {
             components.Add(component);
             component.Initialize(this);
+            return component;
         }
 
         public T GetComponent<T>() where T : Component

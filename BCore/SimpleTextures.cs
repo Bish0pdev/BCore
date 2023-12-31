@@ -6,13 +6,14 @@ namespace BCore
 {
     public static class SimpleTextures
     {
-        public static Texture2D CreateCircleTextureData(int radius, Color color,GraphicsDevice graphicsDevice)
+        public static Texture2D CreateWireframeCircleTexture(int radius, Color color, int lineThickness, GraphicsDevice graphicsDevice)
         {
             int diameter = radius * 2;
             Texture2D texture = new Texture2D(graphicsDevice, diameter, diameter);
 
             Color[] data = new Color[diameter * diameter];
             float radiusSquared = radius * radius;
+            int innerRadiusSquared = (radius - lineThickness) * (radius - lineThickness);
 
             for (int x = 0; x < diameter; x++)
             {
@@ -20,8 +21,9 @@ namespace BCore
                 {
                     int index = x + y * diameter;
                     Vector2 position = new Vector2(x - radius, y - radius);
+                    float distanceSquared = position.LengthSquared();
 
-                    if (position.LengthSquared() <= radiusSquared)
+                    if (distanceSquared <= radiusSquared && distanceSquared >= innerRadiusSquared)
                     {
                         data[index] = color;
                     }
@@ -36,33 +38,49 @@ namespace BCore
             return texture;
         }
 
-        public static Texture2D CreateSquareTexture(GraphicsDevice graphicsDevice, int sideLength, Color color)
+        public static Texture2D CreateWireframeSquareTexture(GraphicsDevice graphicsDevice, int sideLength, Color color, int lineThickness)
         {
             Texture2D texture = new Texture2D(graphicsDevice, sideLength, sideLength);
             Color[] data = new Color[sideLength * sideLength];
 
             for (int i = 0; i < data.Length; i++)
             {
-                data[i] = color;
+                int x = i % sideLength;
+                int y = i / sideLength;
+
+                if (x < lineThickness || x >= sideLength - lineThickness || y < lineThickness || y >= sideLength - lineThickness)
+                {
+                    data[i] = color;
+                }
+                else
+                {
+                    data[i] = Color.Transparent;
+                }
             }
 
             texture.SetData(data);
             return texture;
         }
 
-        public static Texture2D CreateTriangleTexture(GraphicsDevice graphicsDevice, int sideLength, Color color)
+        public static Texture2D CreateWireframeTriangleTexture(GraphicsDevice graphicsDevice, int sideLength, Color color, int lineThickness)
         {
             Texture2D texture = new Texture2D(graphicsDevice, sideLength, sideLength);
             Color[] data = new Color[sideLength * sideLength];
 
-            // Assuming an equilateral triangle for simplicity
+            // Draw the wireframe triangle
             int halfLength = sideLength / 2;
+            int topX = halfLength;
+            int bottomY = sideLength - 1;
 
             for (int x = 0; x < sideLength; x++)
             {
                 for (int y = 0; y < sideLength; y++)
                 {
-                    if (y <= x && y <= (sideLength - x) && y <= halfLength)
+                    if (
+                        y == bottomY ||
+                        (y == 0 && x >= halfLength - lineThickness && x <= halfLength + lineThickness) ||
+                        (y == topX - x && x < halfLength + lineThickness && x > halfLength - lineThickness && y <= topX)
+                    )
                     {
                         data[x + y * sideLength] = color;
                     }
