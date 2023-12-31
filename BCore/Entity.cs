@@ -60,7 +60,7 @@ namespace BCore
         }
 
         // Update all components attached to the entity
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             foreach (var component in components)
             {
@@ -69,7 +69,7 @@ namespace BCore
         }
 
         // Draw all components attached to the entity
-        public void Draw(SpriteBatch batch)
+        public virtual void Draw(SpriteBatch batch)
         {
             foreach (var component in components)
             {

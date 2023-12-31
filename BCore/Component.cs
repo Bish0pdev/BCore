@@ -17,7 +17,7 @@ namespace BCore
             OnInitialize();
         }
 
-        public abstract void Update(GameTime gameTime);
+        public virtual void Update(GameTime gameTime) { }
         public virtual void Draw(SpriteBatch batch) {  }
 
         protected virtual void OnInitialize(){}
@@ -38,14 +38,14 @@ namespace BCore
             texture = _texture;
             color = Color.White;
         }
-        public override void Update(GameTime gameTime)
-        {
-            
-        }
 
         public override void Draw(SpriteBatch batch)
         {
             batch.Draw(texture, entity.Position, null, color, entity.Rotation, entity.Origin, entity.Scale, SpriteEffects.None, 0f);
+        }
+        protected override void OnInitialize()
+        {
+            entity.Origin = texture.Bounds.Center.ToVector2();
         }
     }
 
@@ -70,6 +70,34 @@ namespace BCore
         public override void Draw(SpriteBatch batch)
         {
             //batch.Draw(SimpleTextures.CreateSquareTexture(batch.GraphicsDevice, (int)Math.Round(entity.Scale.Length()), new Color(Color.Red,0.1f)), entity.Position, Color.White);
+        }
+    }
+
+    public class TextRenderer : Component
+    {
+        public SpriteFont font;
+        public Color color = Color.White;
+        public string Text = "";
+
+        public TextRenderer(SpriteFont font,string text, Color color)
+        {
+            this.font = font;
+            this.color = color;
+            this.Text = text;
+        }
+        public TextRenderer(SpriteFont font, Color color)
+        {
+            this.font = font;
+            this.color = color;
+        }
+        public TextRenderer(SpriteFont font) { this.font = font; }
+        public void SetText(string text)
+        {
+            Text = text;
+        }
+        public override void Draw(SpriteBatch batch)
+        {
+            batch.DrawString(font,Text,entity.Position,color);
         }
     }
 }
