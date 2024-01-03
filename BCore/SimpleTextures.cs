@@ -61,6 +61,29 @@ namespace BCore
             texture.SetData(data);
             return texture;
         }
+        public static Texture2D CreateWireframeSquareTexture(GraphicsDevice graphicsDevice, Rectangle bounds, Color color, int lineThickness)
+        {
+            Texture2D texture = new Texture2D(graphicsDevice, bounds.Width, bounds.Height);
+            Color[] data = new Color[bounds.Width * bounds.Height];
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                int x = i % bounds.Width;
+                int y = i / bounds.Width;
+
+                if (x < lineThickness || x >= bounds.Width - lineThickness || y < lineThickness || y >= bounds.Height - lineThickness)
+                {
+                    data[i] = color;
+                }
+                else
+                {
+                    data[i] = Color.Transparent;
+                }
+            }
+
+            texture.SetData(data);
+            return texture;
+        }
 
         public static Texture2D CreateWireframeTriangleTexture(GraphicsDevice graphicsDevice, int sideLength, Color color, int lineThickness)
         {

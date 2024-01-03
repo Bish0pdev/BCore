@@ -5,10 +5,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace BCore
-{
+namespace BCore {
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
+    using System.Drawing;
+    using Color = Color;
 
     /// <summary>
     /// Represents a base class for components that can be attached to entities.
@@ -90,7 +92,7 @@ namespace BCore
         /// <param name="batch">The SpriteBatch used for rendering.</param>
         public override void Draw(SpriteBatch batch)
         {
-            batch.Draw(texture, entity.Position, null, color, entity.Rotation, entity.Origin, entity.Scale, SpriteEffects.None, 0f);
+            batch.Draw(texture, entity.Position, null, color, entity.Rotation, entity.Origin, entity.Scale / texture.Bounds.Size.ToVector2(), SpriteEffects.None, 0f);
         }
 
         /// <summary>
@@ -132,7 +134,7 @@ namespace BCore
         {
             this.font = font;
             this.color = color;
-            this.Text = text;
+            Text = text;
         }
 
         /// <summary>
@@ -170,5 +172,4 @@ namespace BCore
             batch.DrawString(font, Text, entity.Position, color);
         }
     }
-
 }

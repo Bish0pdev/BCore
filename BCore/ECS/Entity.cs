@@ -42,7 +42,7 @@ namespace BCore
         {
             Position = Vector2.Zero;
             Rotation = 0;
-            Scale = Vector2.One;
+            Scale = new Vector2(100);
         }
 
         /// <summary>
@@ -106,15 +106,7 @@ namespace BCore
         /// <returns>The component of type T if found; otherwise, null.</returns>
         public T GetComponent<T>() where T : Component
         {
-            foreach (var component in components)
-            {
-                if (component is T typedComponent)
-                {
-                    return typedComponent;
-                }
-            }
-
-            return null;
+            return (T)components.Find(x => x is T);
         }
 
         /// <summary>
