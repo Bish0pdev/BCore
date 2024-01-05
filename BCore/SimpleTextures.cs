@@ -85,37 +85,5 @@ namespace BCore
             return texture;
         }
 
-        public static Texture2D CreateWireframeTriangleTexture(GraphicsDevice graphicsDevice, int sideLength, Color color, int lineThickness)
-        {
-            Texture2D texture = new Texture2D(graphicsDevice, sideLength, sideLength);
-            Color[] data = new Color[sideLength * sideLength];
-
-            // Draw the wireframe triangle
-            int halfLength = sideLength / 2;
-            int topX = halfLength;
-            int bottomY = sideLength - 1;
-
-            for (int x = 0; x < sideLength; x++)
-            {
-                for (int y = 0; y < sideLength; y++)
-                {
-                    if (
-                        y == bottomY ||
-                        (y == 0 && x >= halfLength - lineThickness && x <= halfLength + lineThickness) ||
-                        (y == topX - x && x < halfLength + lineThickness && x > halfLength - lineThickness && y <= topX)
-                    )
-                    {
-                        data[x + y * sideLength] = color;
-                    }
-                    else
-                    {
-                        data[x + y * sideLength] = Color.Transparent;
-                    }
-                }
-            }
-
-            texture.SetData(data);
-            return texture;
-        }
     }
 }

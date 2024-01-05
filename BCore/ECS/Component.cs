@@ -12,6 +12,7 @@ namespace BCore {
     using System.Drawing;
     using Color = Color;
 
+
     /// <summary>
     /// Represents a base class for components that can be attached to entities.
     /// </summary>
@@ -66,6 +67,11 @@ namespace BCore {
         public Color color = Color.White;
 
         /// <summary>
+        /// The Offset from the entity origin
+        /// </summary>
+        public Vector2 Offset = Vector2.Zero;
+
+        /// <summary>
         /// Initializes a new instance of the SpriteRenderer class with a texture and color.
         /// </summary>
         /// <param name="texture">The texture of the sprite.</param>
@@ -92,7 +98,7 @@ namespace BCore {
         /// <param name="batch">The SpriteBatch used for rendering.</param>
         public override void Draw(SpriteBatch batch)
         {
-            batch.Draw(texture, entity.Position, null, color, entity.Rotation, entity.Origin, entity.Scale / texture.Bounds.Size.ToVector2(), SpriteEffects.None, 0f);
+            batch.Draw(texture, entity.Position + Offset, null, color, entity.Rotation, entity.Origin, entity.Scale / texture.Bounds.Size.ToVector2(), SpriteEffects.None, 0f);
         }
 
         /// <summary>
